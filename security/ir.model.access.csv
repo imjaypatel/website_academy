@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_lessons,access_res_lessons,model_res_lessons,,1,0,0,0
+access_res_lessons_system,access_res_lessons_system,model_res_lessons,base.group_system,1,1,1,1
+
+access_res_rooms,access_res_rooms,model_res_rooms,,1,0,0,0
+access_res_rooms_system,access_res_rooms_system,model_res_rooms,base.group_system,1,1,1,1
+
+access_res_attendees,access_res_attendees,model_res_attendees,,1,0,0,0
+access_res_attendees_system,access_res_attendees_system,model_res_attendees,base.group_system,1,1,1,1
+
+access_res_courses,access_res_courses,model_res_courses,,1,0,0,0
+access_res_courses_system,access_res_courses_system,model_res_courses,base.group_system,1,1,1,1

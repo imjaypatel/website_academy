@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="course_summary_report_wizard" model="ir.ui.view" >
+    <field name="name">Course Summary Report</field>
+    <field name="model">course.summary.report.wizard</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Course Summary Report">
+            <footer>
+                <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                <button string="Cancel" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<act_window id="action_academy_course_report_wizard"
+    name="Course Report"
+    res_model="course.summary.report.wizard"
+    view_mode="form"
+    target="new"/>
+
+<menuitem action="action_academy_course_report_wizard"
+    id="menu_academy_course_report_wizard"
+    parent="website_academy.menu_academy"
+    sequence="5"/>
+</odoo>

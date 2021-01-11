@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<menuitem id="menu_academy" name="Academy"
+    sequence="5"
+    groups="base.group_system"/>
+
+<menuitem id="menu_academy_configuration"
+    name="Academy Configuration"
+    parent="menu_academy" sequence="10"/>
+
+<record id="courses_tree_view" model="ir.ui.view">
+    <field name="name">res.courses.tree</field>
+    <field name="model">res.courses</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <tree string="Courses">
+            <field name="name"/>
+            <field name="instructor_id"/>
+            <field name="room_id"/>
+            <field name="lesson_id"/>
+            <field name="attendees_ids"/>
+        </tree>
+    </field>
+</record>
+<record id="courses_form_view" model="ir.ui.view">
+    <field name="name">res.courses.form</field>
+    <field name="model">res.courses</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <form string="Courses">
+            <sheet>
+                <div class="oe_title">
+                    <label class="oe_edit_only" for="name" string="Course Name"/>
+                    <h1><field name="name" placeholder="Course Name"/></h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="instructor_id" domain="[('is_instructor', '=', True)]"/>
+                        <field name="room_id"/>
+                        <field name="lesson_id"/>
+                    </group>
+                    <group>
+                        <field name="address_id"/>
+                        <label for="date_begin" string="Date"/>
+                        <div class="o_row">
+                            <field name="date_begin" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_end'}"/>
+                            <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                            <field name="date_end" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date_begin'}"/>
+                        </div>
+                        <field name="date_tz"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Description" name="description">
+                        <field name="description" nolabel="1" placeholder="Write down course description..."/>
+                    </page>
+                    <page string="Attendees" name="attendees">
+                        <field name="attendees_ids" nolabel="1"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+<record id="menu_courses_action" model="ir.actions.act_window">
+    <field name="name">Courses</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.courses</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" eval="False"/>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add new course.
+      </p><p>
+      </p>
+    </field>
+</record>
+<menuitem id="menu_courses"
+    action="menu_courses_action"
+    parent="menu_academy" sequence="1"/>
+
+<record id="attendees_tree_view" model="ir.ui.view">
+    <field name="name">res.attendees.tree</field>
+    <field name="model">res.attendees</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <tree string="Attendees">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+<record id="attendees_form_view" model="ir.ui.view">
+    <field name="name">res.attendees.form</field>
+    <field name="model">res.attendees</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <form string="Attendees">
+            <sheet>
+                <div class="oe_title">
+                    <label class="oe_edit_only" for="name" string="Attendee Name"/>
+                    <h1><field name="name" placeholder="Attendee Name"/></h1>
+                </div>
+            </sheet>
+        </form>
+    </field>
+</record>
+<record id="menu_attendees_action" model="ir.actions.act_window">
+    <field name="name">Attendees</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.attendees</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" eval="False"/>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add new attendee.
+      </p><p>
+      </p>
+    </field>
+</record>
+<menuitem id="menu_attendees"
+    action="menu_attendees_action"
+    parent="menu_academy" sequence="2"/>
+
+<record id="rooms_tree_view" model="ir.ui.view">
+    <field name="name">res.rooms.tree</field>
+    <field name="model">res.rooms</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <tree string="Rooms">
+            <field name="name"/>
+            <field name="lesson_id"/>
+            <field name="capacity"/>
+        </tree>
+    </field>
+</record>
+<record id="rooms_form_view" model="ir.ui.view">
+    <field name="name">res.rooms.form</field>
+    <field name="model">res.rooms</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <form string="Rooms">
+            <sheet>
+                <div class="oe_title">
+                    <label class="oe_edit_only" for="name" string="Room Name"/>
+                    <h1><field name="name" placeholder="Room Name"/></h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="capacity"/>
+                    </group>
+                    <group>
+                        <field name="lesson_id"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+<record id="menu_rooms_action" model="ir.actions.act_window">
+    <field name="name">Rooms</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.rooms</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" eval="False"/>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add new room.
+      </p><p>
+      </p>
+    </field>
+</record>
+<menuitem id="menu_rooms"
+    action="menu_rooms_action"
+    parent="menu_academy_configuration" sequence="1"/>
+
+<record id="lessons_tree_view" model="ir.ui.view">
+    <field name="name">res.lessons.tree</field>
+    <field name="model">res.lessons</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <tree string="Lessons">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+<record id="lessons_form_view" model="ir.ui.view">
+    <field name="name">res.lessons.form</field>
+    <field name="model">res.lessons</field>
+    <field name="field_parent" eval="False"/>
+    <field name="arch" type="xml">
+        <form string="Lessons">
+            <sheet>
+                <div class="oe_title">
+                    <label class="oe_edit_only" for="name" string="Lessons Name"/>
+                    <h1><field name="name" placeholder="Lessons Name"/></h1>
+                </div>
+            </sheet>
+        </form>
+    </field>
+</record>
+<record id="menu_lessons_action" model="ir.actions.act_window">
+    <field name="name">Lessons</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.lessons</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" eval="False"/>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add new lesson.
+      </p><p>
+      </p>
+    </field>
+</record>
+<menuitem id="menu_lessons"
+    action="menu_lessons_action"
+    parent="menu_academy_configuration" sequence="2"/>
+
+<!-- Partner Inherit -->
+<record id="instructor_form_view_inherit" model="ir.ui.view">
+    <field name="name">res.partner.form.inherit</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='parent_id']/.." position="after">
+            <div class="mt16" name="options">
+                <div>
+                    <field name="is_instructor"/>
+                    <label for="is_instructor"/>
+                </div>
+            </div>
+        </xpath>
+        <field name="category_id" position="after">
+            <field name="courses_ids" widget="many2many_tags" placeholder="Courses..." attrs="{'invisible': [('is_instructor', '=', False)]}"/>
+        </field>
+    </field>
+</record>
+<record id="view_res_partner_filter_inherit" model="ir.ui.view">
+    <field name="name">res.partner.select</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+        <field name="email" position="before">
+            <field name="is_instructor" filter_domain="[('is_instructor', '=', True)]"/>
+        </field>
+    </field>
+</record>
+<record id="menu_instructor_action" model="ir.actions.act_window">
+    <field name="name">Instructors</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.partner</field>
+    <field name="view_mode">kanban,tree,form,activity</field>
+    <field name="search_view_id" ref="website_academy.view_res_partner_filter_inherit"/>
+    <field name="context">{'search_default_is_instructor': True, 'default_is_instructor': True}</field>
+    <field name="view_id" eval="False"/>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add new instructor.
+      </p>
+    </field>
+</record>
+<menuitem id="menu_instructor"
+    action="menu_instructor_action"
+    parent="menu_academy" sequence="3"/>
+
+</odoo>

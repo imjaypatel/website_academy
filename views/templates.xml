@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="assets_frontend" inherit_id="website.assets_frontend" name="Assets Frontend">
+  <xpath expr="//link[last()]" position="after">
+    <link rel="stylesheet" type="text/scss" href="/website_academy/static/src/scss/style.scss"/>
+  </xpath>
+</template>
+
+<template id="courses" name="Courses">
+  <t t-call="website.layout">
+    <div id="wrap" class="o_wevent_index">
+      <div class="o_wevent_events_list opt_event_list_cards_bg">
+        <div class="container">
+          <div class="row">
+            <div id="o_wevent_index_main_col" class="col-md my-5 opt_events_list_columns">
+              <div class="row">
+                <t t-if="not courses">
+                  <div class="col-12">
+                    <div class="h2 mb-3">No course found.</div>
+                  </div>
+                </t>
+                <!-- List -->
+                <div t-foreach="courses" t-as="course" class="col-md-4 mb-4">
+                  <article class="card border-0 shadow-sm">
+                    <div class="row no-gutters">
+                      <header class="overflow-hidden bg-secondary col-12 rounded-top">
+                        <a t-attf-href="/course/#{ slug(course) }" class="d-block h-100 w-100">
+                          <div class="o_record_cover_container d-flex flex-column h-100 bg-primary">
+                            <div class="o_record_cover_component o_record_cover_image" style="background-image: none;"></div>
+                            <!-- Short Date -->
+                            <div class="o_wevent_event_date position-absolute bg-white shadow-sm">
+                                <span t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'format': 'LLL'}" class="o_wevent_event_month"/>
+                                <span t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'format': 'dd'}" class="o_wevent_event_day"/>
+                            </div>
+                          </div>
+                        </a>
+                      </header>
+                      <div class="col-12">
+                        <!-- Body -->
+                        <main class="card-body">
+                            <!-- Title -->
+                            <h5 class="card-title mt-2 mb-0 text-truncate">
+                              <a t-attf-href="/course/#{ slug(course) }" class="text-reset text-decoration-none">
+                                <span t-field="course.name" itemprop="name"/>
+                              </a>
+                            </h5>
+                            <!-- Instructor -->
+                            <div t-if="course.instructor_id" class="mb-3">
+                              <small class="text-muted text-truncate">Instructor: <span t-field="course.instructor_id"/></small>
+                            </div>
+                            <!-- Location -->
+                            <div t-if="course.address_id" t-field="course.address_id" t-options="{'widget': 'contact', 'fields': ['city'], 'no_marker': 'true'}"/>
+                            <!-- Start Date & Time -->
+                            <time itemprop="startDate" t-att-datetime="course.date_begin">
+                              <span t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'date_only': 'true', 'format': 'long'}"/> -
+                              <span t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'time_only': 'true', 'format': 'short'}"/>
+                            </time>
+                        </main>
+                        <!-- Footer -->
+                        <footer class="small card-footer">
+                          <div>
+                            <span class="font-weight-bold text-uppercase"><t t-esc="course.room_id and course.room_id.name"/></span>
+                          </div>
+                        </footer>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </t>
+</template>
+
+<template id="course" name="Course">
+  <t t-call="website.layout">
+    <div id="wrap" class="o_wevent_event">
+      <div class="o_wevent_events_list opt_event_list_cards_bg">
+        <section class="bg-200">
+          <div class="container">
+            <div class="row no-gutters pt-5 pb-5">
+                <!-- Description -->
+                <div id="o_wevent_event_main_col" class="col-lg-8 bg-white rounded-left p-5 shadow-sm">
+                  <h1 t-field="course.name" class="o_wevent_event_name"/>
+                  
+                  <t t-raw="course.description"/>
+                </div>
+                <div class="col-lg-4 bg-light rounded-right shadow-sm d-print-none">
+                    <!-- Date & Time -->
+                    <div class="o_wevent_sidebar_block">
+                        <h6 class="o_wevent_sidebar_title">Date &amp; Time</h6>
+                        <span t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'date_only': 'true', 'format': 'EEEE'}"/>
+
+                        <h4 class="my-1" t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'date_only': 'true', 'format': 'long'}" itemprop="startDate" t-att-datetime="course.date_begin"/>
+
+                        <span t-field="course.with_context(tz=course.date_tz).date_begin" t-options="{'time_only': 'true', 'format': 'short'}"/>
+                        <i class="fa fa-long-arrow-right mx-1"/>
+                        <span t-field="course.with_context(tz=course.date_tz).date_end" t-options="{'time_only': 'true', 'format': 'short'}"/>
+
+                        <!-- Timezone -->
+                        <small t-esc="course.date_tz" class="d-block my-3 text-muted"/>
+
+                    </div>
+                    <!-- Location -->
+                    <div t-if="course.address_id" class="o_wevent_sidebar_block">
+                        <h6 class="o_wevent_sidebar_title">Location</h6>
+                        <h4 t-field="course.address_id" class="" t-options='{
+                            "widget": "contact",
+                            "fields": ["name"]
+                        }'/>
+                        <div itemprop="location" class="mb-2" t-field="course.address_id" t-options='{
+                            "widget": "contact",
+                            "fields": ["address"],
+                            "no_marker": True
+                        }'/>
+                        <div class="mb-3" t-field="course.address_id" t-options='{
+                            "widget": "contact",
+                            "fields": ["phone", "mobile", "email"]
+                        }'/>
+                    </div>
+
+                    <!-- Instructor -->
+                    <div t-if="course.instructor_id" class="o_wevent_sidebar_block">
+                      <h6 class="o_wevent_sidebar_title">Instructor</h6>
+                      <h4 t-field="course.instructor_id"/>
+                    </div>
+
+                    <!-- Room -->
+                    <div t-if="course.room_id" class="o_wevent_sidebar_block">
+                      <h6 class="o_wevent_sidebar_title">Room</h6>
+                      <h4 t-field="course.room_id"/>
+                    </div>
+
+                    <!-- Lesson -->
+                    <div t-if="course.lesson_id" class="o_wevent_sidebar_block">
+                      <h6 class="o_wevent_sidebar_title">Lesson</h6>
+                      <h4 t-field="course.lesson_id"/>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </t>
+</template>
+
+</odoo>

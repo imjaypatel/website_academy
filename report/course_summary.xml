@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report id="course_summary_report"
+        model="course.summary.report.wizard"
+        string="Course Summary Report"
+        report_type="qweb-pdf"
+        name="website_academy.course_summary_report_view"
+        paperformat="website_academy.paperformat_course_summary_report"
+        menu="False"/>
+
+    <template id="course_summary_report_view">
+        <t t-call="web.html_container">
+            <div class="header" style="border-bottom: 1px solid black;">
+                <h3 class="text-center">Course Summary Report 
+                </h3>
+            </div>
+            <div class="article mt0 o_report_layout_standard">
+                <h5>Here show main course details</h5>
+                <!-- Here show main course details -->
+            </div>
+            <div class="footer o_standard_footer" style="border-top: 1px solid black;">
+                <div class="row text-center">
+                    <div class="col col-12 text-center">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Page:</li>
+                            <li class="list-inline-item">
+                                <span class="page"/>
+                            </li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item">
+                                <span class="topage"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
